@@ -1,0 +1,7 @@
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.csproj.AssemblyReference.cache
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.csproj.CoreCompileInputs.cache
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.exe.config
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.exe
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.pdb
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.exe
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.pdb
