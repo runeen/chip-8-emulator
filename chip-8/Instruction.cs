@@ -19,6 +19,8 @@ namespace chip_8
         public Instruction(ushort input)
         {
 
+            Console.WriteLine(input);
+
             //Totul este foarte neoptimizat pentru ca doar incerc sa fac ceva care functioneaza
 
 
