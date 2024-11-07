@@ -23,8 +23,8 @@ namespace chip_8
 
         public Form1()
         {
-            this.Width = 640;
-            this.Height = 320;
+            this.Width = 650;
+            this.Height = 360;
             matrix = new bool[64, 32];
         }
         
@@ -79,7 +79,7 @@ namespace chip_8
                 {
                     if (matrix[j, i])
                     {
-                        g.FillRectangle(new SolidBrush(Color.White), new Rectangle(j * 10, i * 10, 10, 10));
+                        g.FillRectangle(new SolidBrush(Color.White), new Rectangle(j * 10, i * 10, 8, 8));
                     }
                 }
             }

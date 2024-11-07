@@ -7,3 +7,5 @@ C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8
 C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.pdb
 C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip_8.Form1.resources
 C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.csproj.GenerateResource.cache
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.exe.CodeAnalysisLog.xml
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.exe.lastcodeanalysissucceeded
