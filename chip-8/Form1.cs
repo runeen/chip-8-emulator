@@ -37,7 +37,7 @@ namespace chip_8
             this.Paint += new PaintEventHandler(Paint_Event);
             while(true)
             {
-                Thread.Sleep(100);
+                Thread.Sleep(15);
                 p.step();
             }
         }

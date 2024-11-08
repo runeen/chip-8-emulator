@@ -127,10 +127,53 @@ namespace chip_8
                         Console.WriteLine("am dat de instrctiune 0000");
                         Thread.Sleep(100000);
                     }
+                    else if(instruction.x == 0 && instruction.y == 12)
+                    {
+                        bool[,] matrix = f1.getMatrix();
+                        bool[,] matrix_output = new bool[64, 32];
+                        for(int i = instruction.n; i < 32; i++)
+                        {
+                            for(int j = 0; j < 64; j++)
+                            {
+                                matrix_output[j, i] = matrix[j, i - instruction.n];
+                            }
+                        }
+                        f1.setMatrix(matrix_output);
+                    } else if(instruction.nn == 238)
+                    {
+                        PC = stack.Pop();
+                    }
+
                     break;
                 case 1:
                     PC = instruction.nnn;
                     Console.WriteLine("PC: {0}", PC);
+                    break;
+                case 2:
+                    stack.Push(PC);
+                    PC = instruction.nnn;
+                    Console.WriteLine("Sarim la subrutina, pc:{0}", PC);
+                    break;
+                case 3:
+                    Console.WriteLine("Verificam daca registru{0} este egal cu val {1}", instruction.x, instruction.nn);
+                    if (registers[instruction.x] == instruction.nn)
+                    {
+                        PC += 2;
+                    }
+                    break;
+                case 4:
+                    Console.WriteLine("Verificam daca registru{0} nu este egal cu val {1}", instruction.x, instruction.nn);
+                    if (registers[instruction.x] != instruction.nn)
+                    {
+                        PC += 2;
+                    }
+                    break;
+                case 5:
+                    Console.WriteLine("Verificam daca registru{0} este egal cu registrul {1}", instruction.x, instruction.y);
+                    if (registers[instruction.x] == registers[instruction.y])
+                    {
+                        PC += 2;
+                    }
                     break;
                 case 6:
                     registers[instruction.x] = instruction.nn;
@@ -141,6 +184,48 @@ namespace chip_8
                     Console.WriteLine("adunam intr-un registru");
                     registers[instruction.x] += instruction.nn;
                     Console.WriteLine("V{0}: {1}", instruction.x, registers[instruction.x]);
+                    break;
+                case 8:
+                    if (instruction.n == 0)
+                    {
+                        Console.WriteLine("Mutam or intre v{0} si v{1}", instruction.x, instruction.y);
+                        registers[instruction.x] = registers[instruction.y];
+                    }
+                    if (instruction.n == 1)
+                    {
+                        Console.WriteLine("Facem or intre v{0} si v{1}", instruction.x, instruction.y);
+                        registers[instruction.x] = (byte)(registers[instruction.x] | registers[instruction.y]);
+                    }
+                    else if(instruction.n == 2)
+                    {
+                        Console.WriteLine("Facem and intre v{0} si v{1}", instruction.x, instruction.y);
+                        registers[instruction.x] = (byte)(registers[instruction.x] & registers[instruction.y]);
+                    }
+                    else if (instruction.n == 3)
+                    {
+                        Console.WriteLine("Facem xor intre v{0} si v{1}", instruction.x, instruction.y);
+                        registers[instruction.x] = (byte)(registers[instruction.x] ^ registers[instruction.y]);
+                    }
+                    else if (instruction.n == 4)
+                    {
+                        Console.WriteLine("Facem suma intre v{0} si v{1}", instruction.x, instruction.y);
+                        registers[instruction.x] = (byte)(registers[instruction.x] + registers[instruction.y]);
+                    }
+                    else if (instruction.n == 5)
+                    {
+                        Console.WriteLine("Facem scadere intre v{0} si v{1}", instruction.x, instruction.y);
+                        if (registers[instruction.x] < registers[instruction.y])
+                        {
+                            registers[15] = 1; 
+                            registers[instruction.x] = (byte)((registers[instruction.x] + 256)  - registers[instruction.y]);
+                            Console.WriteLine("vx = {0}, vy={1} -------------------------", registers[instruction.x], registers[instruction.y]);
+                        }
+                        else
+                        {
+                            registers[instruction.x] = (byte)(registers[instruction.x] - registers[instruction.y]);
+                            Console.WriteLine("vx = {0}, vy={1} -------------------------", registers[instruction.x], registers[instruction.y]);
+                        }
+                    }
                     break;
                 case 10:
                     Console.WriteLine("Setam i");

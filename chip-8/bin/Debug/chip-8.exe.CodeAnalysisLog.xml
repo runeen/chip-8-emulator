@@ -6,7 +6,7 @@
    <Modules>
     <Module Name="chip-8.exe">
      <Messages>
-      <Message TypeName="MarkWindowsFormsEntryPointsWithStaThread" Category="Microsoft.Usage" CheckId="CA2232" Status="Active" Created="2024-11-07 21:29:44Z" FixCategory="NonBreaking">
+      <Message TypeName="MarkWindowsFormsEntryPointsWithStaThread" Category="Microsoft.Usage" CheckId="CA2232" Status="Active" Created="2024-11-08 08:09:30Z" FixCategory="NonBreaking">
        <Issue Certainty="95" Level="Error">Mark the entry point method 'Program.Main(string[])' in assembly 'chip-8.exe' with an STAThreadAttribute.</Issue>
       </Message>
      </Messages>
