@@ -1,11 +1,12 @@
-C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.csproj.AssemblyReference.cache
-C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.csproj.CoreCompileInputs.cache
 C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.exe.config
 C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.exe
 C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.pdb
-C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.exe
-C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.pdb
-C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.csproj.GenerateResource.cache
 C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.exe.CodeAnalysisLog.xml
 C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\bin\Debug\chip-8.exe.lastcodeanalysissucceeded
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.csproj.AssemblyReference.cache
 C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip_8.Fereastra.resources
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.csproj.GenerateResource.cache
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.csproj.CoreCompileInputs.cache
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.exe
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip-8.pdb
+C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8\obj\Debug\chip_8.Form2.resources

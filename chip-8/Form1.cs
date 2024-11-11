@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace chip_8
 {
@@ -23,6 +19,8 @@ namespace chip_8
         private bool[,] matrix;
         Program p;
 
+        Form2 emulatorWindow;
+
 
 
         public Fereastra()
@@ -33,13 +31,18 @@ namespace chip_8
             p = new Program();
             p.Emulator(this);
 
+            emulatorWindow = new Form2(this);
+
+            emulatorWindow.Visible = true;
+
             this.Paint += new PaintEventHandler(Paint_Event);
             this.KeyDown += new KeyEventHandler(Key_Down_Event);
             this.KeyUp += new KeyEventHandler(Key_Up_Event);
             this.StartPosition = FormStartPosition.CenterScreen;
 
+            DebuggerStep();
 
-            ELoop();
+            //ELoop();
         }
 
 
@@ -54,7 +57,6 @@ namespace chip_8
         {
             while (true)
             {
-                Refresh();
                 await Task.Run(() =>
                 {
 
@@ -62,9 +64,149 @@ namespace chip_8
                     Thread.Sleep(15);
                 });
             }
+            Refresh();
         }
 
-        private  void EventWaitHandle()
+        public async void DebuggerLoop()
+        {
+            while (true)
+            {
+                bool refresh = await Task.Run(() =>
+                {
+                    return p.step(is_down, key_pressed);
+                });
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("Registri: ");
+
+                for (int i = 0; i < 0x10; i++)
+                {
+                    sb.Append(p.registers[i].ToString("X2"));
+                    sb.Append(", ");
+                }
+
+                sb.Append("Delay timer: ");
+                sb.Append(p.delayTimer.ToString("X2"));
+                sb.Append(".");
+                emulatorWindow.Registrii.Text = sb.ToString();
+
+
+
+                sb = new StringBuilder();
+
+                sb.Append("Instructiune Rulata: ");
+
+                sb.Append(p.lastRun.ToString());
+                emulatorWindow.InstrRulata.Text = sb.ToString();
+
+
+                sb = new StringBuilder();
+
+                sb.Append("Urmatoarea instructiune: ");
+
+                sb.Append(p.Memory[p.PC + 2].ToString("X2"));
+                sb.Append(p.Memory[p.PC + 4].ToString("X2"));
+                emulatorWindow.InstUrm.Text = sb.ToString();
+
+
+
+                sb = new StringBuilder();
+
+                for(int i = 0x200; i < 0x500; i++)
+                {
+                    if (i % 0x20 == 0) { sb.Append("\n"); }
+                    if (i % 2 == 0) { sb.Append(" "); }
+                    if (p.PC == i)
+                    {
+                        sb.Append("PC:");
+                    }
+
+                    if(p.I == i)
+                    {
+                        sb.Append("I:");
+                    }
+
+                    sb.Append(p.Memory[i].ToString("X2"));
+                }
+
+                emulatorWindow.label7.Text = sb.ToString();
+
+
+                if (refresh) Refresh();
+            }
+        }
+
+        public async void DebuggerStep()
+        {
+            
+                bool refresh = await Task.Run(() =>
+                {
+                    return p.step(is_down, key_pressed);
+                });
+
+                StringBuilder sb = new StringBuilder();
+
+                sb.Append("Registri: ");
+
+                for (int i = 0; i < 0x10; i++)
+                {
+                    sb.Append(p.registers[i].ToString("X2"));
+                    sb.Append(", ");
+                }
+
+                sb.Append("Delay timer: ");
+                sb.Append(p.delayTimer.ToString("X2"));
+                sb.Append(".");
+                emulatorWindow.Registrii.Text = sb.ToString();
+
+
+
+                sb = new StringBuilder();
+
+                sb.Append("Instructiune Rulata: ");
+
+                sb.Append(p.lastRun.ToString());
+                emulatorWindow.InstrRulata.Text = sb.ToString();
+
+
+                sb = new StringBuilder();
+
+                sb.Append("Urmatoarea instructiune: ");
+
+                sb.Append(p.Memory[p.PC + 2].ToString("X2"));
+                sb.Append(p.Memory[p.PC + 4].ToString("X2"));
+                emulatorWindow.InstUrm.Text = sb.ToString();
+
+
+
+                sb = new StringBuilder();
+
+                for (int i = 0x200; i < 0x500; i++)
+                {
+                    if (i % 0x20 == 0) { sb.Append("\n"); }
+                    if (i % 2 == 0) { sb.Append(" "); }
+                    if (p.PC == i)
+                    {
+                        sb.Append("PC:");
+                    }
+
+                    if (p.I == i)
+                    {
+                        sb.Append("I:");
+                    }
+
+                    sb.Append(p.Memory[i].ToString("X2"));
+                }
+
+                emulatorWindow.label7.Text = sb.ToString();
+
+
+                if (refresh) Refresh();
+        }
+
+
+        private void EventWaitHandle()
         {
         }
 
@@ -89,6 +231,7 @@ namespace chip_8
         public void clearScreen()
         {
             matrix = new bool[64, 32];
+            Refresh();
         }
 
 
@@ -122,7 +265,7 @@ namespace chip_8
 
         }
 
-        
+
 
 
     }
