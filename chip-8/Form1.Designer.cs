@@ -1,7 +1,7 @@
 ﻿
 namespace chip_8
 {
-    partial class Form1
+    partial class Fereastra
     {
         /// <summary>
         /// Required designer variable.
@@ -31,13 +31,16 @@ namespace chip_8
         {
             this.SuspendLayout();
             // 
-            // Form1
+            // Fereastra
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(557, 450);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.ClientSize = new System.Drawing.Size(743, 554);
+            this.ControlBox = false;
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Name = "Fereastra";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Fereastra";
             this.ResumeLayout(false);
 
         }

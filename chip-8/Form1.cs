@@ -11,54 +11,90 @@ using System.Threading;
 
 namespace chip_8
 {
-    public partial class Form1 : Form
+    public partial class Fereastra : Form
     {
 
         Graphics g;
         private int x, y;
 
+        Keys key_pressed;
+        bool is_down;
+
         private bool[,] matrix;
+        Program p;
 
 
 
-        public Form1()
+        public Fereastra()
         {
-            this.Width = 650;
-            this.Height = 360;
+            this.Width = 1300;
+            this.Height = 720;
             matrix = new bool[64, 32];
+            p = new Program();
+            p.Emulator(this);
+
+            this.Paint += new PaintEventHandler(Paint_Event);
+            this.KeyDown += new KeyEventHandler(Key_Down_Event);
+            this.KeyUp += new KeyEventHandler(Key_Up_Event);
+            this.StartPosition = FormStartPosition.CenterScreen;
+
+
+            ELoop();
         }
-        
+
 
         override
         protected void OnActivated(EventArgs e)
         {
-            Program p = new Program();
-            p.Emulator(this);
-            this.Paint += new PaintEventHandler(Paint_Event);
-            while(true)
+            //Thread EmulatorLoop = new Thread(new ThreadStart(ELoop));
+            //EmulatorLoop.Start();
+        }
+
+        protected async void ELoop()
+        {
+            while (true)
             {
-                Thread.Sleep(15);
-                p.step();
+                Refresh();
+                await Task.Run(() =>
+                {
+
+                    p.step(is_down, key_pressed);
+                    Thread.Sleep(15);
+                });
             }
         }
+
+        private  void EventWaitHandle()
+        {
+        }
+
+        private void Key_Down_Event(object sender, KeyEventArgs e)
+        {
+            key_pressed = e.KeyCode;
+            Console.WriteLine("ai apasat {0}", key_pressed);
+            is_down = true;
+        }
+
+        private void Key_Up_Event(object sender, KeyEventArgs e)
+        {
+            is_down = false;
+        }
+
 
         public void drawPixel(int x, int y)
         {
             this.x = x;
             this.y = y;
-            //this.Paint += new PaintEventHandler(Draw_Pixel_Event);
         }
         public void clearScreen()
         {
             matrix = new bool[64, 32];
-            Refresh();
         }
 
 
         public void setMatrix(bool[,] matrix)
         {
             this.matrix = matrix;
-            Refresh();
         }
 
         public bool[,] getMatrix()
@@ -71,7 +107,7 @@ namespace chip_8
         {
             Graphics g = e.Graphics;
 
-            g.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, 640, 320));
+            g.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, 1300, 720));
 
             for (int i = 0; i < 32; i++)
             {
@@ -79,37 +115,15 @@ namespace chip_8
                 {
                     if (matrix[j, i])
                     {
-                        g.FillRectangle(new SolidBrush(Color.White), new Rectangle(j * 10, i * 10, 8, 8));
+                        g.FillRectangle(new SolidBrush(Color.White), new Rectangle(j * 20, i * 20, 20, 18));
                     }
                 }
             }
 
         }
 
-        private void Clear_Screen_Event(object sender, PaintEventArgs e)
-        {
-            Console.Write("ClearScreen in event");
-            Graphics g = e.Graphics;
-
-            g.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, 640, 320));
-        }
-
         
 
-        private void Draw_Pixel_Event(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
 
-
-            g.FillRectangle(new SolidBrush(Color.White), new Rectangle(x * 10, y * 10, 10, 10));
-        }
-
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-
-            Pen myPen = new System.Drawing.Pen(System.Drawing.Color.Red);
-            g.DrawEllipse(myPen, new Rectangle(0, 0, 200, 300));
-        }
     }
 }
