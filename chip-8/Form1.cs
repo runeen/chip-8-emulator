@@ -35,14 +35,15 @@ namespace chip_8
 
             emulatorWindow.Visible = true;
 
+            this.BackColor = Color.Black;
             this.Paint += new PaintEventHandler(Paint_Event);
             this.KeyDown += new KeyEventHandler(Key_Down_Event);
             this.KeyUp += new KeyEventHandler(Key_Up_Event);
             this.StartPosition = FormStartPosition.CenterScreen;
 
-            DebuggerStep();
+            //DebuggerLoop();
 
-            //ELoop();
+            ELoop();
         }
 
 
@@ -57,14 +58,13 @@ namespace chip_8
         {
             while (true)
             {
-                await Task.Run(() =>
+                bool refresh = await Task.Run(() =>
                 {
-
-                    p.step(is_down, key_pressed);
-                    Thread.Sleep(15);
+                    return p.step(is_down, key_pressed);
                 });
+                if (refresh) Refresh();
             }
-            Refresh();
+
         }
 
         public async void DebuggerLoop()
@@ -96,6 +96,7 @@ namespace chip_8
                 sb = new StringBuilder();
 
                 sb.Append("Instructiune Rulata: ");
+                sb.Append(p.PC.ToString("X4"));
 
                 sb.Append(p.lastRun.ToString());
                 emulatorWindow.InstrRulata.Text = sb.ToString();
@@ -165,6 +166,7 @@ namespace chip_8
                 sb = new StringBuilder();
 
                 sb.Append("Instructiune Rulata: ");
+                sb.Append(p.PC.ToString("X4"));
 
                 sb.Append(p.lastRun.ToString());
                 emulatorWindow.InstrRulata.Text = sb.ToString();

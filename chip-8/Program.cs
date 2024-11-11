@@ -63,7 +63,7 @@ namespace chip_8
 
         private void CitesteFisier()
         {
-            FileStream stream = new FileStream("pong.rom", FileMode.Open, FileAccess.Read);
+            FileStream stream = new FileStream("TETRIS", FileMode.Open, FileAccess.Read);
             Byte[] instructiune = new Byte[2];
             int c = 512;
             while (stream.Read(instructiune, 0, 1) > 0)
@@ -244,6 +244,7 @@ namespace chip_8
                     else if (instruction.n == 2)
                     {
                         Console.WriteLine("Facem and intre v{0} si v{1}", instruction.x, instruction.y);
+                        /*
                         byte temp = 0;
                         byte copy_x = registers[instruction.x];
                         byte copy_y = registers[instruction.y];
@@ -255,6 +256,8 @@ namespace chip_8
                             copy_y /= 2;
                         }
                         registers[instruction.x] = temp;
+                        */
+                        registers[instruction.x] = (byte)(registers[instruction.x] & registers[instruction.y]); 
                     }
                     else if (instruction.n == 3)
                     {
@@ -421,7 +424,7 @@ namespace chip_8
                     {
                         Console.WriteLine("sarim daca nu e apasat ce scrie in v{0}", instruction.x);
                         Console.WriteLine("{0}, {1}", isKeyDown, Key_pressed);
-                        if (isKeyDown && Key_pressed == registers[instruction.x]) PC += 2;
+                        if ((!isKeyDown) || (isKeyDown && Key_pressed != registers[instruction.x])) PC += 2;
                     }
                     else
                     {
@@ -460,7 +463,7 @@ namespace chip_8
                     else if (instruction.nn == 0x29)
                     {
                         Console.WriteLine("Scriem in I locatia sprite-ului in font cu val reg{0} ", instruction.x);
-                        I = (ushort)(6 * registers[instruction.x]);
+                        I = (ushort)(5 * registers[instruction.x]);
                     }
                     else if (instruction.nn == 0x33)
                     {
