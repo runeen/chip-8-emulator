@@ -20,7 +20,10 @@ namespace chip_8
         Program p;
 
         Form2 emulatorWindow;
+        SolidBrush white;
+        SolidBrush black;
 
+        public bool stop_emulation;
 
 
         public Fereastra()
@@ -30,6 +33,7 @@ namespace chip_8
             matrix = new bool[64, 32];
             p = new Program();
             p.Emulator(this);
+            stop_emulation = false;
 
             emulatorWindow = new Form2(this);
 
@@ -41,9 +45,15 @@ namespace chip_8
             this.KeyUp += new KeyEventHandler(Key_Up_Event);
             this.StartPosition = FormStartPosition.CenterScreen;
 
+
+            white = new SolidBrush(Color.FromArgb(0xff, 0xd6, 0xff));
+            black = new SolidBrush(Color.FromArgb(0xc8, 0xb6, 0xff));
+
             //DebuggerLoop();
 
             ELoop();
+
+            RefreshLoop();
         }
 
 
@@ -56,15 +66,33 @@ namespace chip_8
 
         protected async void ELoop()
         {
-            while (true)
+            while (!stop_emulation)
             {
-                bool refresh = await Task.Run(() =>
+                await Task.Run(() =>
                 {
-                    return p.step(is_down, key_pressed);
+                    p.step(is_down, key_pressed);
+                    p.step(is_down, key_pressed);
+                    p.step(is_down, key_pressed);
+                    p.step(is_down, key_pressed);
+                    p.step(is_down, key_pressed);
+                    p.step(is_down, key_pressed);
+                    p.step(is_down, key_pressed);
+                    Thread.Sleep(1);
                 });
-                if (refresh) Refresh();
             }
 
+        }
+
+        protected async void RefreshLoop()
+        {
+            while (true)
+            {
+                await Task.Run(() =>
+                {
+                    Thread.Sleep(7);
+                });
+                Refresh();
+            }
         }
 
         public async void DebuggerLoop()
@@ -222,6 +250,7 @@ namespace chip_8
         private void Key_Up_Event(object sender, KeyEventArgs e)
         {
             is_down = false;
+            key_pressed = 0;
         }
 
 
@@ -233,7 +262,6 @@ namespace chip_8
         public void clearScreen()
         {
             matrix = new bool[64, 32];
-            Refresh();
         }
 
 
@@ -252,7 +280,9 @@ namespace chip_8
         {
             Graphics g = e.Graphics;
 
-            g.FillRectangle(new SolidBrush(Color.Black), new Rectangle(0, 0, 1300, 720));
+            g.FillRectangle(black, new Rectangle(0, 0, 1300, 720));
+
+
 
             for (int i = 0; i < 32; i++)
             {
@@ -260,15 +290,11 @@ namespace chip_8
                 {
                     if (matrix[j, i])
                     {
-                        g.FillRectangle(new SolidBrush(Color.White), new Rectangle(j * 20, i * 20, 20, 18));
+                        g.FillRectangle(white, new Rectangle(j * 20 + 1, i * 20 + 1, 18, 17));
                     }
                 }
             }
 
         }
-
-
-
-
     }
 }

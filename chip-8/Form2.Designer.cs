@@ -35,6 +35,7 @@ namespace chip_8
             this.memorie = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.ButtonStep = new System.Windows.Forms.Button();
+            this.stop = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // Registrii
@@ -96,11 +97,23 @@ namespace chip_8
             this.ButtonStep.UseVisualStyleBackColor = true;
             this.ButtonStep.Click += new System.EventHandler(this.ButtonStep_Click);
             // 
+            // stop
+            // 
+            this.stop.ImageAlign = System.Drawing.ContentAlignment.TopRight;
+            this.stop.Location = new System.Drawing.Point(760, 147);
+            this.stop.Name = "stop";
+            this.stop.Size = new System.Drawing.Size(75, 23);
+            this.stop.TabIndex = 8;
+            this.stop.Text = "stop";
+            this.stop.UseVisualStyleBackColor = true;
+            this.stop.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(887, 638);
+            this.Controls.Add(this.stop);
             this.Controls.Add(this.ButtonStep);
             this.Controls.Add(this.label7);
             this.Controls.Add(this.memorie);
@@ -123,5 +136,6 @@ namespace chip_8
         public System.Windows.Forms.Label memorie;
         public System.Windows.Forms.Label label7;
         public System.Windows.Forms.Button ButtonStep;
+        private System.Windows.Forms.Button stop;
     }
 }

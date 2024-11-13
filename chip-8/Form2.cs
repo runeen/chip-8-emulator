@@ -56,5 +56,10 @@ namespace chip_8
         {
             mainWindow.DebuggerStep();
         }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            mainWindow.stop_emulation = true;
+        }
     }
 }

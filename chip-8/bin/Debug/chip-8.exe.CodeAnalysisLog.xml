@@ -6,18 +6,32 @@
    <Modules>
     <Module Name="chip-8.exe">
      <Messages>
-      <Message TypeName="MarkWindowsFormsEntryPointsWithStaThread" Category="Microsoft.Usage" CheckId="CA2232" Status="Active" Created="2024-11-11 18:24:02Z" FixCategory="NonBreaking">
+      <Message TypeName="MarkWindowsFormsEntryPointsWithStaThread" Category="Microsoft.Usage" CheckId="CA2232" Status="Active" Created="2024-11-12 17:30:51Z" FixCategory="NonBreaking">
        <Issue Certainty="95" Level="Error">Mark the entry point method 'Program.Main(string[])' in assembly 'chip-8.exe' with an STAThreadAttribute.</Issue>
       </Message>
      </Messages>
      <Namespaces>
       <Namespace Name="chip_8">
        <Types>
+        <Type Name="Fereastra" Kind="Class" Accessibility="Public" ExternallyVisible="True">
+         <Members>
+          <Member Name="#Dispose(System.Boolean)" Kind="Method" Static="False" Accessibility="Family" ExternallyVisible="True">
+           <Messages>
+            <Message Id="black" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2024-11-12 17:30:51Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8" File="Form1.Designer.cs" Line="16">'Fereastra' contains field 'Fereastra.black' that is of IDisposable type: 'SolidBrush'. Change the Dispose method on 'Fereastra' to call Dispose or Close on this field.</Issue>
+            </Message>
+            <Message Id="white" TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213" Status="Active" Created="2024-11-12 17:30:51Z" FixCategory="NonBreaking">
+             <Issue Certainty="75" Level="Warning" Path="C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8" File="Form1.Designer.cs" Line="16">'Fereastra' contains field 'Fereastra.white' that is of IDisposable type: 'SolidBrush'. Change the Dispose method on 'Fereastra' to call Dispose or Close on this field.</Issue>
+            </Message>
+           </Messages>
+          </Member>
+         </Members>
+        </Type>
         <Type Name="Instruction" Kind="Class" Accessibility="Assembly" ExternallyVisible="False">
          <Members>
           <Member Name="#.ctor(System.Byte[],System.UInt16)" Kind="Method" Static="False" Accessibility="Public" ExternallyVisible="False">
            <Messages>
-            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2024-11-11 18:24:02Z" FixCategory="NonBreaking">
+            <Message TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214" Status="Active" Created="2024-11-12 17:30:51Z" FixCategory="NonBreaking">
              <Issue Certainty="95" Level="CriticalWarning" Path="C:\Users\aeuge\OneDrive\Documents\GitHub\chip-8-emulator\chip-8" File="Instruction.cs" Line="15">'Instruction.Instruction(byte[], ushort)' contains a call chain that results in a call to a virtual method defined by the class. Review the following call stack for unintended consequences: &#xD;&#xA;&#xD;&#xA;Instruction..ctor(Byte[], UInt16)&#xD;&#xA;Object.ToString():String</Issue>
             </Message>
            </Messages>
@@ -32,6 +46,16 @@
   </Target>
  </Targets>
  <Rules>
+  <Rule TypeName="DisposableFieldsShouldBeDisposed" Category="Microsoft.Usage" CheckId="CA2213">
+   <Name>Disposable fields should be disposed</Name>
+   <Description>If a type that implements IDisposable owns fields that also implement IDisposable, the encapsulating type's Dispose() implementation should call Dispose() on each disposable field.</Description>
+   <Resolution Name="Default">{0} contains field {1} that is of IDisposable type: {2}. Change the Dispose method on {0} to call Dispose or Close on this field.</Resolution>
+   <Owner />
+   <Url>http://msdn.microsoft.com/library/ms182328.aspx</Url>
+   <Email>[none]</Email>
+   <MessageLevel Certainty="75">Warning</MessageLevel>
+   <File Name="usagerules.dll" Version="16.0.0.0" />
+  </Rule>
   <Rule TypeName="DoNotCallOverridableMethodsInConstructors" Category="Microsoft.Usage" CheckId="CA2214">
    <Name>Do not call overridable methods in constructors</Name>
    <Description>Virtual methods defined on the class should not be called from constructors. If a derived class has overridden the method, the derived class version will be called (before the derived class constructor is called).</Description>

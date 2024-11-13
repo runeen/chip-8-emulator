@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace chip_8
@@ -88,7 +90,22 @@ namespace chip_8
             delayTimer = 1;
 
             CitesteFisier();
+            decrementDTST();
 
+
+        }
+
+        protected async void decrementDTST()
+        {
+            while(true)
+            {
+                await Task.Run(() =>
+                {
+                    Thread.Sleep(16);
+                });
+                if (delayTimer != 0) delayTimer--;
+                if (soundTimer != 0) soundTimer--;
+            }
         }
 
         public bool step(bool isKeyDown, Keys Key_pressed)
@@ -100,16 +117,18 @@ namespace chip_8
         private byte translate(Keys key)
         {
             if (key == Keys.D1)
-                return 0x1;
+                return 0x0;
             else if (key == Keys.D2)
-                return 0x2;
+                return 0x1;
             else if (key == Keys.D3)
-                return 0x3;
+                return 0x2;
             else if (key == Keys.D4)
-                return 0x4;
+                return 0x3;
             else if (key == Keys.Q)
-                return 0x5;
+                return 0x4;
             else if (key == Keys.W)
+                return 0x5;
+            else if (key == Keys.E)
                 return 0x6;
             else if (key == Keys.R)
                 return 0x7;
@@ -118,18 +137,18 @@ namespace chip_8
             else if (key == Keys.S)
                 return 0x9;
             else if (key == Keys.D)
-                return 0xA;
+                return 0xa;
             else if (key == Keys.F)
-                return 0xB;
+                return 0xb;
             else if (key == Keys.Z)
-                return 0xC;
+                return 0xc;
             else if (key == Keys.X)
-                return 0xD;
+                return 0xd;
             else if (key == Keys.C)
-                return 0xE;
+                return 0xe;
             else if (key == Keys.V)
-                return 0xF;
-            return 0;
+                return 0xf;
+            return 0x10;
         }
 
         private Instruction Fetch()
@@ -142,7 +161,7 @@ namespace chip_8
 
         private bool Execute(Instruction instruction, bool isKeyDown, byte Key_pressed)
         {
-            //TODO: probabil e problema cu imput-uri idk
+            //TODO: DEBUG
             bool refresh = false;
             if (isKeyDown)
             {
@@ -173,6 +192,7 @@ namespace chip_8
                     else if (instruction.nn == 0xEE)
                     {
                         PC = stack.Pop();
+
                     }
                     else
                     {
@@ -220,12 +240,12 @@ namespace chip_8
                     if (registers[instruction.x] + instruction.nn > 0xFF)
                     {
                         registers[instruction.x] = (byte)(instruction.nn + registers[instruction.x] - 0x100);
-                        registers[0xF] = 1;
+                        //registers[0xF] = 1;
                     }
                     else
                     {
                         registers[instruction.x] += instruction.nn;
-                        registers[0xF] = 0;
+                        //registers[0xF] = 0;
                     }
                     Console.WriteLine("V{0}: {1}", instruction.x, registers[instruction.x]);
                     break;
@@ -244,19 +264,6 @@ namespace chip_8
                     else if (instruction.n == 2)
                     {
                         Console.WriteLine("Facem and intre v{0} si v{1}", instruction.x, instruction.y);
-                        /*
-                        byte temp = 0;
-                        byte copy_x = registers[instruction.x];
-                        byte copy_y = registers[instruction.y];
-                        for (int i = 0; i < 8; i++)
-                        {
-                            temp *= 2;
-                            if (copy_x % 2 == 1 && copy_y % 2 == 1) temp++;
-                            copy_x /= 2;
-                            copy_y /= 2;
-                        }
-                        registers[instruction.x] = temp;
-                        */
                         registers[instruction.x] = (byte)(registers[instruction.x] & registers[instruction.y]); 
                     }
                     else if (instruction.n == 3)
@@ -355,16 +362,7 @@ namespace chip_8
                     byte[] randomByte = new Byte[1];
                     r.NextBytes(randomByte);
 
-                    byte temp1 = 0;
-                    byte tempInstNN = instruction.nn;
-                    for (int i = 0; i < 8; i++)
-                    {
-                        temp1 *= 2;
-                        if (randomByte[0] % 2 == 1 && tempInstNN % 2 == 1) temp1++;
-                        randomByte[0] /= 2;
-                        tempInstNN /= 2;
-                    }
-                    registers[instruction.x] = temp1;
+                    registers[instruction.x] = (byte) (randomByte[0] & instruction.nn);
                     break;
 
                 case 0xD:
@@ -502,8 +500,6 @@ namespace chip_8
                     break;
             }
 
-            if(delayTimer != 0) delayTimer--;
-            if(soundTimer != 0) soundTimer--;
             lastRun = instruction;
             return refresh;
         }
